@@ -78,7 +78,13 @@
                 content.classList.add('content');
 
                 const image = document.createElement('img');
-                image.src = `bilder/day${i}.jpg`; // Adjusted to match your folder structure
+
+                // Try loading images with JPG first, fallback to WEBP
+                image.src = `bilder/day${i}.jpg`;
+                image.onerror = () => {
+                    image.src = `bilder/day${i}.webp`;
+                };
+
                 image.alt = `Surprise for day ${i}`;
                 content.appendChild(image);
                 door.appendChild(content);
