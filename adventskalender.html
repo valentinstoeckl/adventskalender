@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advent Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .door {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            border: 2px solid #ccc;
+            background-color: #ffe4e1;
+            cursor: pointer;
+        }
+        .door span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .content {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1;
+        }
+        .content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advent Calendar</h1>
+    <p>Click on a door to reveal the surprise!</p>
+    <div class="calendar">
+        <!-- Doors will be generated dynamically -->
+    </div>
+
+    <script>
+        const calendar = document.querySelector('.calendar');
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth(); // Month is zero-indexed (0 = January)
+
+        if (currentMonth !== 11) { // Check if it's December
+            calendar.innerHTML = '<p>The advent calendar is only active in December!</p>';
+        } else {
+            for (let i = 1; i <= 24; i++) {
+                const door = document.createElement('div');
+                door.classList.add('door');
+
+                const number = document.createElement('span');
+                number.textContent = i;
+                door.appendChild(number);
+
+                const content = document.createElement('div');
+                content.classList.add('content');
+
+                const image = document.createElement('img');
+                image.src = `images/day${i}.jpg`; // Replace with your image paths
+                image.alt = `Surprise for day ${i}`;
+                content.appendChild(image);
+                door.appendChild(content);
+
+                door.addEventListener('click', () => {
+                    if (i <= currentDay) {
+                        content.style.display = 'block';
+                    } else {
+                        alert('You cannot open this door yet!');
+                    }
+                });
+
+                calendar.appendChild(door);
+            }
+        }
+    </script>
+</body>
+</html>
